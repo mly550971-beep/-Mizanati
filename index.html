@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#071411">
+  <title>ميزانيتي | تتبع المصاريف</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="script.js" defer></script>
+</head>
+<body>
+<div class="app">
+  <header>
+    <div class="brand"><div class="logo">↗</div><div><h1>ميزانيتي</h1><p>إدارة أموالك بذكاء وهدوء</p></div></div>
+    <div class="month" id="monthLabel"></div>
+  </header>
+
+  <section class="glass hero">
+    <div class="hero-top"><div class="eyebrow">إجمالي رصيدك الحالي</div><button class="primary" id="jumpToForm">＋ معاملة جديدة</button></div>
+    <div class="balance" id="balance">0 <span>ج.م</span></div>
+    <div class="hero-stats">
+      <div><div class="stat-label">إجمالي الدخل</div><div class="stat-value positive" id="heroIncome">0 ج.م</div></div>
+      <div><div class="stat-label">إجمالي المصروفات</div><div class="stat-value negative" id="heroExpense">0 ج.م</div></div>
+    </div>
+  </section>
+
+  <div class="stats-grid">
+    <section class="glass stat-card"><div class="card-head"><span class="muted">الدخل هذا الشهر</span><span class="icon">↙</span></div><div class="number positive" id="monthIncome">0 ج.م</div><div class="small-note">مجموع الإيرادات المسجلة</div></section>
+    <section class="glass stat-card"><div class="card-head"><span class="muted">المصروفات هذا الشهر</span><span class="icon">↗</span></div><div class="number negative" id="monthExpense">0 ج.م</div><div class="small-note">مجموع النفقات المسجلة</div></section>
+    <section class="glass stat-card"><div class="card-head"><span class="muted">المتبقي من الميزانية</span><span class="icon">◉</span></div><div class="number" id="remaining">0 ج.م</div><div class="small-note" id="remainingNote">حدّث ميزانيتك الشهرية</div></section>
+  </div>
+
+  <div class="layout">
+    <div>
+      <section class="glass section">
+        <div class="section-title"><h2>نظرة على ميزانيتك</h2><small>ملخص الشهر الحالي</small></div>
+        <div class="budget-box">
+          <div class="budget-numbers"><span>استهلاك الميزانية</span><strong id="budgetPercent">0%</strong></div>
+          <div class="track"><div id="budgetFill"></div></div>
+          <div class="budget-numbers"><span id="spentLabel">0 ج.م مصروف</span><span id="budgetLabel">من 10,000 ج.م</span></div>
+          <div class="budget-edit"><input id="budgetInput" type="number" min="0" step="100" placeholder="الميزانية الشهرية (ج.م)" aria-label="الميزانية الشهرية"><button class="secondary" id="saveBudget">حفظ الميزانية</button></div>
+        </div>
+        <div class="section-title"><h2>توزيع المصروفات</h2><small>حسب التصنيف</small></div>
+        <div class="chart-wrap">
+          <div class="donut" id="donut"><div class="donut-center"><strong id="chartTotal">0</strong><small>ج.م مصروفات</small></div></div>
+          <div class="legend" id="legend"><div class="empty">أضف مصروفًا لعرض التوزيع</div></div>
+        </div>
+      </section>
+
+      <section class="glass section transactions">
+        <div class="section-title"><h2>آخر المعاملات</h2><div class="filters">
+          <select id="filterType" aria-label="تصفية حسب النوع"><option value="all">كل الأنواع</option><option value="expense">المصروفات</option><option value="income">الدخل</option></select>
+          <select id="filterCategory" aria-label="تصفية حسب التصنيف"><option value="all">كل التصنيفات</option><option>طعام</option><option>فواتير</option><option>مواصلات</option><option>تسوق</option><option>ترفيه</option><option>صحة</option><option>تعليم</option><option>راتب</option><option>أخرى</option></select>
+        </div></div>
+        <div id="transactionList"><div class="empty">لا توجد معاملات حتى الآن. ابدأ بإضافة أول معاملة.</div></div>
+      </section>
+    </div>
+
+    <section class="glass section" id="addSection">
+      <div class="section-title"><h2>إضافة معاملة</h2><small>سجّل حركة أموالك</small></div>
+      <form id="transactionForm">
+        <div class="form-grid">
+          <div class="field full"><label for="description">اسم المعاملة</label><input id="description" maxlength="70" placeholder="مثال: مشتريات السوبر ماركت" required></div>
+          <div class="field"><label for="amount">المبلغ (ج.م)</label><input id="amount" type="number" min="0.01" step="0.01" placeholder="0.00" required></div>
+          <div class="field"><label for="type">نوع المعاملة</label><select id="type"><option value="expense">مصروف</option><option value="income">دخل</option></select></div>
+          <div class="field"><label for="category">التصنيف</label><select id="category"><option>طعام</option><option>فواتير</option><option>مواصلات</option><option>تسوق</option><option>ترفيه</option><option>صحة</option><option>تعليم</option><option>راتب</option><option>أخرى</option></select></div>
+          <div class="field"><label for="date">التاريخ</label><input id="date" type="date" required></div>
+          <div class="field full"><label for="note">ملاحظات (اختياري)</label><input id="note" maxlength="120" placeholder="تفاصيل إضافية..."></div>
+        </div>
+        <button class="primary submit" type="submit">＋ إضافة المعاملة</button>
+      </form>
+      <p class="muted privacy">🔒 بياناتك محفوظة محليًا في هذا المتصفح ولا يتم إرسالها إلى خادم.</p>
+    </section>
+  </div>
+  <footer>صُمم بحب لإدارة مالية أوضح · ميزانيتي © <span id="year"></span></footer>
+</div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+</body>
+</html>
